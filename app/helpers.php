@@ -1,4 +1,8 @@
 <?php
+function attachments_path($path = '')
+{
+    return public_path('files'.($path ? DIRECTORY_SEPARATOR.$path : $path));
+}
 function program_attachments_path($path = '')
 {
     return public_path('files\programs'.($path ? DIRECTORY_SEPARATOR.$path : $path));

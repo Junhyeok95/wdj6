@@ -60,10 +60,9 @@
                 url: 'programs/'+'create',
                 data: {
                 mydata: "mydata",
+                processData:false,
+                contentType:false,
                 },
-                success: function(data){
-                console.log(data);
-                }
             });
             if(!'{{auth()->user()}}'){
                 alert("로그인 한 유저만 글 작성이 가능합니다");
@@ -79,7 +78,7 @@
             $('.page-header').css("display","block");
         }   
         function show(){
-
+            alert("확인");
         }
         function store(){
             var form = $('#program_create_form')[0];
@@ -90,9 +89,6 @@
                 data: data,
                 processData:false,
                 contentType:false,
-                error:function(request,status,error){
-                    alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-                },
             }).then(function(){    
                 $('.program-div').load('/programs .program-div').css("display","block");
                 $('.create-form').css("display","none");
@@ -137,6 +133,7 @@
         background-clip: border-box;
         border: 1px solid rgba(0, 0, 0, 0.125);
         border-radius: 0.25rem;
+        margin-bottom:10px;
         }
         .card-imgbox{
         margin: 5px;

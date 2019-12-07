@@ -15,13 +15,13 @@ class CreateProgramAttachmentsTable extends Migration
     {
         Schema::create('program_attachments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('program_id')->index();
+            $table->unsignedBigInteger('program_id')->unsigned()->index();
             $table->string('filename');
             $table->unsignedBigInteger('bytes');
             $table->string('mime');
             $table->timestamps();
 
-            $table->foreign('program_id')->references('id')->on('programs')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('program_id')->references('id')->on('programs')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

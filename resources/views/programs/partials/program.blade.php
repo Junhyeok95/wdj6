@@ -1,6 +1,6 @@
 <div class="card program{{$program->id}}" onclick="show()" data-id="{{$program->id}}">
     <div class="card-imgbox col-md-4">
-        <img class="cardimg" src="$program_attachments->url" alt="program-img">
+        <img class="cardimg" src="files\programs\{{\App\Program_attachment::whereId($program->id)->first()->filename}}" alt="program-img">
     </div>
     <div class="card-body col-md-8">
         <h1 class="card-title">{{$program->title}}</h1>
@@ -10,6 +10,7 @@
         </div>
         <div class="card-content">
             <p>{{$program->content}}</p>
+            
         </div>
     </div>
 </div>

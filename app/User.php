@@ -41,6 +41,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+    //한 유저는 여러개의 글을 가질 수 있음
     public function programs()
     {
         return $this->hasMany(Program::class);

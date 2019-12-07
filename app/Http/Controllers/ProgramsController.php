@@ -57,6 +57,7 @@ class ProgramsController extends Controller
                 // 파일이 PHP의 임시 저장소에 있을 때만 getSize, getClientMimeType등이 동작하므로,
                 // 우리 프로젝트의 파일 저장소로 업로드를 옮기기 전에 필요한 값을 취해야 함.
                 $program->program_attachments()->create([
+                    'program_id'=> $program->id,
                     'filename' => $filename,
                     'bytes' => $file->getSize(),
                     'mime' => $file->getClientMimeType()
