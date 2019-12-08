@@ -15,13 +15,13 @@ class CreateProgramsTable extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->unsignedBigInteger('user_id')->unsigned()->index();
             $table->string('title');
             $table->text('content');
             $table->timestamps();
             
             //외부 키 설정 
-
         });
     }
 

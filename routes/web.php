@@ -1,4 +1,8 @@
 <?php
+# ajax 연습
+Route::resource('ajaxtests', 'AjaxTestsController');
+# ajax 연습
+
 
 # 장준혁 홈페이지
 Route::get('/', function () { return redirect('home'); });
@@ -13,8 +17,7 @@ Route::resource('programs', 'ProgramsController');
 
 # 정인식 조원소개
 Route::resource('members','MembersController');
-Route::post('members/{id}/update/','MembersController@update');
-Route::get('members/{id}/ajax','MembersController@ajaxIndex');
+// Route::post('members/{id}/update/','MembersController@update');
 # 정인식 조원소개
 
 
@@ -65,29 +68,23 @@ Route::post('auth/reset', [
     'uses' => 'PasswordsController@postReset',
 ]);
 
-
-
-
-// /* 태그 */
-// Route::get('tags/{slug}/articles', [ //{{slug}}값에 들어온 것은 index메서드로 넘김
-//     'as' => 'tags.articles.index',
-//     'uses' => 'ArticlesController@index',
-// ]);
-
-// /* 좋아요 */
-// Route::post('comments/{comment}/votes',[
-//     'as' => 'comments.vote',
-//     'uses' => 'CommentsController@vote',
-// ]);
-
-
-
-
-
-// // 드롭존 라이브러리의 파일 업로드 요청을 받을 별도의 라우트
+# 이재영 게시판
+// 게시판
+Route::resource('/articles', 'ArticlesController');
+// 태그
+Route::get('tags/{slug}/articles', [ //{{slug}}값에 들어온 것은 index메서드로 넘김
+    'as' => 'tags.articles.index',
+    'uses' => 'ArticlesController@index',
+]);
+// 수정 예정
 // Route::resource('attachments', 'AttachmentsController', ['only' => ['store', 'destroy']]);
 // Route::get('attachments/{file}', 'AttachmentsController@show');
-
-// // 댓글
-// Route::resource('comments', 'CommentsController', ['only' => ['update', 'destroy']]);
-// Route::resource('articles.comments', 'CommentsController', ['only' => 'store']);
+// 댓글
+Route::resource('comments', 'CommentsController', ['only' => ['update', 'destroy']]);
+Route::resource('articles.comments', 'CommentsController', ['only' => 'store']);
+// 좋아요
+Route::post('comments/{comment}/votes',[
+    'as' => 'comments.vote',
+    'uses' => 'CommentsController@vote',
+]);
+# 이재영 게시판
