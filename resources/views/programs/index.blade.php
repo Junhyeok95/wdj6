@@ -121,7 +121,6 @@
                 $('.carousel-divbox').load('/programs .carousel-div').css("display","block");
             });
         }
-
         function dorp(program_id){
             if(confirm('글을 삭제합니다.')){
                 $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
