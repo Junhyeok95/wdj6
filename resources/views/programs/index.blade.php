@@ -13,8 +13,10 @@
             <hr>
         </div>
         @if($programs->count()>3)
-            <div class="carousel-div">
-                @include('programs.carousel', compact('program')) 
+            <div class="carousel-divbox">
+                <div class="carousel-div">
+                    @include('programs.carousel', compact('program')) 
+                </div>
             </div>
         @endif
         <div class="program-div">
@@ -36,14 +38,21 @@
         <div class="create-form">
             @include('programs.create')
         </div>
-        <div class="show-form">
-            @include('programs.show',compact('program'))
+        <div class="show-divbox">
+            <div class="show-div">
+                @forelse ($programs as $program)
+                    @include('programs.show', compact('program'))
+                @empty
+                @endforelse
+            </div>
         </div>
     </div>
 @stop
 @section('script')
     <script>
         $('#carousel-example-generic').carousel();
+        $('.carousel').carousel({interval: 2000});
+
         function create(){
             console.log('create form 호출');
             $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
@@ -66,24 +75,35 @@
                 return;
             }
         }
+
         function back(){
             $('.program-div').css("display","block");
             $('.create-form').css("display","none");
             $('.page-header').css("display","block");
             $('.carousel-div').css("display","block");
+            $(`.show`).css("display","none");
         }   
-        function show(){
+
+        function show(program_id){
             console.log('show-form 호출');
             $.ajax({
                 type:'GET',
-                url: '/programs/'+'{}',
+                url: `/programs/${program_id}`,
+                data: program_id,
+                error:function(request,status,error){
+                    alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                },
+            }).then(function(e){  
+                $('.program-div').css("display","none");
+                $('.create-form').css("display","none");
+                $('.page-header').css("display","none");
+                $('.carousel-div').css("display","none");
+                $(`.show`).css("display","none");
+                // $(`.show-form${program_id}`).css("display","none");
+                $(`.show-form${program_id}`).css("display","block");
             });
-            $('.program-div').css("display","none");
-            $('.create-form').css("display","none");
-            $('.page-header').css("display","none");
-            $('.carousel-div').css("display","none");
-            $('.show-form').css("display","block");
         }
+
         function store(){
             var form = $('#program_create_form')[0];
             var data = new FormData(form);
@@ -97,8 +117,26 @@
                 $('.program-div').load('/programs .program-div').css("display","block");
                 $('.create-form').css("display","none");
                 $('.page-header').css("display","block");
-                $('.carousel-div').load('/programs .carousel-div').css("display","block");
+                $(`.show-divbox`).load('/programs .show-div');
+                $('.carousel-divbox').load('/programs .carousel-div').css("display","block");
             });
+        }
+
+        function dorp(program_id){
+            if(confirm('글을 삭제합니다.')){
+                $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+                $.ajax({
+                    type: "DELETE",
+                    url: '/programs/' + program_id
+                    data: data,
+                }).then(function(){    
+                    // $('.program-div').load('/programs .program-div').css("display","block");
+                    // $('.create-form').css("display","none");
+                    // $('.page-header').css("display","block");
+                    // $(`.show-divbox`).load('/programs .show-div');
+                    // $('.carousel-divbox').load('/programs .carousel-div').css("display","block");
+                });
+            }
         }
     </script>
 @stop
@@ -205,7 +243,15 @@
             width: 100%;
             overflow: hidden;
         }
+        .carousel-item{
+            text-align:center;
+            background-color:black;
+        }
         .carousel-img{
+            margin-top:5px;
+            margin-bottom:5px;
+            border-radius: 0.5rem;
+            max-height:500px;
             max-width: 100%;
         }
         .carousel-title{
@@ -218,9 +264,17 @@
             text-align: center;
             text-shadow: 0 0 5px black;
         }
+        .show-div{
+            margin: 1px;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
         .show-form{
             border: 1px solid rgba(0, 0, 0, 0.125);
             border-radius: 0.25rem;
+            display:none;
+        }
+        .show{
             display:none;
         }
         .show-header{
@@ -236,13 +290,13 @@
             border-radius: 0.25rem;
             overflow:hidden;
             margin-top:10px;
+            margin-bottom:10px;
             margin-left:auto;
             margin-right:auto;
         }
         .show-title{
             overflow:hidden;
-            margin-top:auto;
-            margin-bottom:auto;
+            margin-top:10px;
             margin-left:10px;
         }
         .show-information{

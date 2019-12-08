@@ -1,4 +1,4 @@
-<div class="show-form">
+<div class="show-form{{$program->id}} show">
     <div class="show-header col-md-11">
         <h1 class="show-title">{{$program->title}}</h1>
         <hr>
@@ -14,13 +14,13 @@
         </div>
         <hr>
         <div class="show-content col-md-11">
-            <p>{{$program}}</p>
+            <p>{{$program->content}}</p>
         </div>
         <hr>
         <div class="show-buttons col-md-8">
             <label class="btn btn-primary btnCreate col-md-3" onclick="">수정 하기</label>  
-            <label class="btn btn-primary btnCreate col-md-3" onclick="">삭제 하기</label>  
-            <label class="btn btn-primary btnCreate col-md-3" onclick="">뒤러 가기</label>  
+            <label class="btn btn-primary btnCreate col-md-3" onclick="dorp({{$program->id}})">삭제 하기</label>  
+            <label class="btn btn-primary btnCreate col-md-3" onclick="back()">뒤로 가기</label>  
         </div>
     </div>
 </div>

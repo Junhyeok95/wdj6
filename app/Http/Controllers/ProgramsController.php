@@ -26,7 +26,6 @@ class ProgramsController extends Controller
      */
     public function create()
     {
-        
         return response()->json(['form'],201);
     }
 
@@ -82,8 +81,10 @@ class ProgramsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $program = \App\Program::find($id);
+
+        return $program;
     }
 
     /**

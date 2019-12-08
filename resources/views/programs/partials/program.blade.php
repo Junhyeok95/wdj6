@@ -1,4 +1,4 @@
-<div class="card program{{$program->id}}" onclick="show()" data-id="{{$program->id}}">
+<div class="card card-program program{{$program->id}}" onclick="show({{$program->id}})" data-id="{{$program->id}}">
     <div class="card-imgbox col-md-4">
         <img class="cardimg" src="files\programs\{{\App\Program_attachment::whereId($program->id)->first()->filename}}" alt="program-img">
     </div>
