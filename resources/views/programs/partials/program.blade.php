@@ -10,7 +10,6 @@
         </div>
         <div class="card-content">
             <p>{{$program->content}}</p>
-            
         </div>
     </div>
 </div>

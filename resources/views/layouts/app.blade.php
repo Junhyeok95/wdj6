@@ -41,6 +41,7 @@
 
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
+    <script src="{{ elixir('js/bootstrap.js') }}"></script>
     @yield('script')
 
 </body>

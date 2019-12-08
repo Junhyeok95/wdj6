@@ -12,23 +12,11 @@
             </div>
             <hr>
         </div>
-
-        <!-- <div class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img src="img\about-bg.jpg" alt="carousel-img" style="max-width: 100%">
-                    <div class="carousel-caption">
-                        <h1 style="font-size: 10em">test1</h1>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="img\about-bg.jpg" alt="carousel-img" style="max-width: 100%">
-                    <div class="carousel-caption">
-                        <h1 style="font-size: 10em">test2</h1>
-                    </div>
-                </div>
+        @if($programs->count()>3)
+            <div class="carousel-div">
+                @include('programs.carousel', compact('program')) 
             </div>
-        </div>  -->
+        @endif
         <div class="program-div">
             @forelse ($programs as $program)
                @include('programs.partials.program', compact('program'))
@@ -48,37 +36,53 @@
         <div class="create-form">
             @include('programs.create')
         </div>
+        <div class="show-form">
+            @include('programs.show',compact('program'))
+        </div>
     </div>
 @stop
 @section('script')
     <script>
+        $('#carousel-example-generic').carousel();
         function create(){
             console.log('create form 호출');
             $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
             $.ajax({
                 type:'GET',
-                url: 'programs/'+'create',
-                data: {
-                mydata: "mydata",
-                processData:false,
-                contentType:false,
+                url: '/programs/'+'create',
+                data: {},
+                error:function(request,status,error){
+                    alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
                 },
+            }).then(function(){    
+                $('.program-div').css("display","none");
+                $('.create-form').css("display","block");
+                $('.page-header').css("display","none");
+                $('.carousel-div').css("display","none");
+                $(".form-control").val("");
             });
             if(!'{{auth()->user()}}'){
                 alert("로그인 한 유저만 글 작성이 가능합니다");
                 return;
             }
-            $('.program-div').css("display","none");
-            $('.create-form').css("display","block");
-            $('.page-header').css("display","none");
         }
         function back(){
             $('.program-div').css("display","block");
             $('.create-form').css("display","none");
             $('.page-header').css("display","block");
+            $('.carousel-div').css("display","block");
         }   
         function show(){
-            alert("확인");
+            console.log('show-form 호출');
+            $.ajax({
+                type:'GET',
+                url: '/programs/'+'{}',
+            });
+            $('.program-div').css("display","none");
+            $('.create-form').css("display","none");
+            $('.page-header').css("display","none");
+            $('.carousel-div').css("display","none");
+            $('.show-form').css("display","block");
         }
         function store(){
             var form = $('#program_create_form')[0];
@@ -93,6 +97,7 @@
                 $('.program-div').load('/programs .program-div').css("display","block");
                 $('.create-form').css("display","none");
                 $('.page-header').css("display","block");
+                $('.carousel-div').load('/programs .carousel-div').css("display","block");
             });
         }
     </script>
@@ -134,13 +139,16 @@
         border: 1px solid rgba(0, 0, 0, 0.125);
         border-radius: 0.25rem;
         margin-bottom:10px;
+        overflow:hidden;
         }
         .card-imgbox{
+        max-height: 250px;
         margin: 5px;
         }
         .cardimg{
         margin: 5px;
         max-width: 100%;
+        width:100%;
         border-radius: 0.25rem;
         }
         .card-body {
@@ -148,22 +156,27 @@
         -webkit-box-flex: 1;
                 flex: 1 1 auto;
         min-height: 1px;
+        max-height: 250px;
         padding: 1.25rem;
+        overflow:hidden;
         }
         .card-information{
         display: flex;
         margin-bottom:10px;
         margin-left:0;
+        overflow:hidden;
         }
         .card-information-name{
         margin-left:-2%;
         margin-top:auto;
         margin-bottom:auto;
+        overflow:hidden;
         }
         .card-information-time{
         margin-left:-2%;
         margin-top:auto;
         margin-bottom:auto;
+        overflow:hidden;
         }
         .card-content{
             max-height:100px;
@@ -178,6 +191,85 @@
         .paginator{
             display:inline-block;
             margin:0 auto;
+        }
+        .carousel-div{
+            border: 4px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+            margin-bottom:20px;
+        }
+        .carousels{
+            position: relative;
+        }
+        .carousels-inner{
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .carousel-img{
+            max-width: 100%;
+        }
+        .carousel-title{
+            font-size:5em;
+            overflow:hidden;
+            /* max-width:50%; */
+            margin-bottom: 100px;
+            color:white;
+            font-weight: 800;
+            text-align: center;
+            text-shadow: 0 0 5px black;
+        }
+        .show-form{
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+            display:none;
+        }
+        .show-header{
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+            overflow:hidden;
+            margin-top:10px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .show-body{
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+            overflow:hidden;
+            margin-top:10px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .show-title{
+            overflow:hidden;
+            margin-top:auto;
+            margin-bottom:auto;
+            margin-left:10px;
+        }
+        .show-information{
+            display: flex;
+            margin-bottom:10px;
+            margin-left:0;
+            overflow:hidden;
+        }
+        .show-content{
+            margin-left:auto;
+            margin-right:auto;
+            margin-left:10px;
+        }
+        .show-img{
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+            max-width: 100%;
+        }
+        .show-imgbox{
+            margin-top:10px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .show-buttons{
+            margin-left:auto;
+            margin-right:auto;
+            text-align: center;
         }
     </style>
 @stop

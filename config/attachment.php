@@ -16,6 +16,7 @@ return [
     'mimes' => [
         'png',
         'jpg',
+        'jpeg',
         'zip',
         'tar',
     ],
