@@ -21,7 +21,7 @@ class CreateProgramsTable extends Migration
             $table->timestamps();
             
             //외부 키 설정 
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+
         });
     }
 

@@ -130,11 +130,11 @@
                     url: '/programs/' + program_id
                     data: data,
                 }).then(function(){    
-                    // $('.program-div').load('/programs .program-div').css("display","block");
-                    // $('.create-form').css("display","none");
-                    // $('.page-header').css("display","block");
-                    // $(`.show-divbox`).load('/programs .show-div');
-                    // $('.carousel-divbox').load('/programs .carousel-div').css("display","block");
+                    $('.program-div').load('/programs .program-div').css("display","block");
+                    $('.create-form').css("display","none");
+                    $('.page-header').css("display","block");
+                    $(`.show-divbox`).load('/programs .show-div');
+                    $('.carousel-divbox').load('/programs .carousel-div').css("display","block");
                 });
             }
         }
