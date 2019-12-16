@@ -87,7 +87,7 @@
             $('.create-form').css("display","none");
             $('.page-header').css("display","block");
             $('.carousel-div').css("display","block");
-            $(`.show`).css("display","none");
+            $(`.show-box`).css("display","none");
             $(`.edit-form`).css("display","none");
         }   
 
@@ -105,7 +105,7 @@
                 $('.create-form').css("display","none");
                 $('.page-header').css("display","none");
                 $('.carousel-div').css("display","none");
-                $(`.show`).css("display","none");
+                $(`.show-box`).css("display","none");
                 // $(`.show-form${program_id}`).css("display","none");
                 $(`.show-form${program_id}`).css("display","block");
             });
@@ -324,7 +324,7 @@
             border-radius: 0.25rem;
             display:none;
         }
-        .show{
+        .show-box{
             display:none;
         }
         .show-header{

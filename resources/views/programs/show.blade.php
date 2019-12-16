@@ -1,4 +1,4 @@
-<div class="show-form{{$program->id}} show">
+<div class="show-form{{$program->id}} show-box">
     <div class="show-header col-md-11">
         <h1 class="show-title">{{$program->title}}</h1>
         <hr>
@@ -10,7 +10,7 @@
     </div>
     <div class="show-body col-md-11">
         <div class="show-imgbox col-md-8">
-            <img class="show-img" src="http://btrya23.iptime.org:8000/files3/{{\App\Program_attachment::whereId($program->id)->first()->filename}}" alt="program-img">
+            <img class="show-img" src="files3/{{\App\Program_attachment::whereId($program->id)->first()->filename}}" alt="img" onerror="this.src='img/no_img.png'">
         </div>
         <hr>
         <div class="show-content col-md-11">

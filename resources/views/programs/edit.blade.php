@@ -9,7 +9,7 @@
     </div>
     <hr />
     <!-- 인코딩 타입변경-->
-    <form id="program_edit_form" action="" method="POST" enctype="multipart/form-data" class="form__program">
+    <form id="program_edit_form{{$program->id}}" action="" method="POST" enctype="multipart/form-data" class="form__program">
         {!! csrf_field() !!}
         @include('programs.partials.editform')
     </form>
