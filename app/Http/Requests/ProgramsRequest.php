@@ -16,6 +16,7 @@ class ProgramsRequest extends FormRequest
             'title' => ['required',],
             'content' => ['required', 'min:1'],
             //확장자 jpg,png,zip,tar만 가능 30000KB가 최대   P.280
+            'files' => ['required'],
             'files.*' => ['sometimes', "mimes:{$mimes}", 'max:30000'],
         ];
     }

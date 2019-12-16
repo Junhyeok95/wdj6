@@ -5,7 +5,7 @@
 
       <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
         
-        <textarea id ="{{'edit_comment' . $parentId}}"name="content" class="form-control">{{ old('content', $comment->content) }}</textarea>
+        <textarea id ="{{'edit_comment' . $comment->id}}"name="content" class="form-control">{{ old('content', $comment->content) }}</textarea>
         {!! $errors->first('content', '<span class="form-error">:message</span>') !!}
         
         <div class="preview__content">
