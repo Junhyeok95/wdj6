@@ -134,8 +134,7 @@
                     editDiv.className = "editDiv";
                     nameDiv.id= "nameDiv"+data.id;
                     commentsDiv.id = "comments"+data.id;
-                    img.src="http://btrya23.iptime.org:8000/files2/"+data.filename;
-                    // img.src="http://127.0.0.1:8000/files2/"+data.filename;
+                    img.src="files2/"+data.filename;
                     img.className = "img-thumbnail";
                     img.alt= "사진 안보여";
                     $(img).on('click',function(){
@@ -235,7 +234,6 @@
             fileDiv.className = "form-group";
             creForm.id = "creForm";
             creForm.enctype = "multipart/form-data";
-            // creForm.attri
             nameLabel.innerHTML = "이름";
             nameInput.type ="text";
             nameInput.name = "name";
