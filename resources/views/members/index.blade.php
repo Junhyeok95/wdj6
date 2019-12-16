@@ -18,14 +18,14 @@
         @forelse ($members as $member)
             <div class="memberDiv" id="memberDiv{{$member->id}}">
                 <div class="imgDiv">
-                    <!-- <img class="img-thumbnail" src="http://127.0.0.1:8000/files2/{{$member->filename}}" alt="11"
-                    onclick="imgClick({{$member->id}},'{{$member->name}}','{{$member->comments}}')"></img> -->
-                    <img class="img-thumbnail" src="http://btrya23.iptime.org:8000/files2/{{$member->filename}}" alt="11"
+                    <img class="img-thumbnail" src="http://127.0.0.1:8000/files2/{{$member->filename}}" alt="11"
                     onclick="imgClick({{$member->id}},'{{$member->name}}','{{$member->comments}}')"></img>
+                    <!-- <img class="img-thumbnail" src="http://btrya23.iptime.org:8000/files2/{{$member->filename}}" alt="11"
+                    onclick="imgClick({{$member->id}},'{{$member->name}}','{{$member->comments}}')"></img> -->
                 </div>
                 <div class="infoDiv">
                     <label onclick="imgClick({{$member->id}},'{{$member->name}}','{{$member->comments}}')"
-                    class="btn btn-info" onclick="edit({{$member->id}})">정보 확인</label>
+                    class="btn btn-info">정보 확인</label>
                 </div>
                 <div class="conDiv" id="conDiv{{$member->id}}"></div>
                 <div class="btnDiv">

@@ -28,7 +28,7 @@
 }
 
 /* 추가 */
-
+/* 
 .create-header{
   margin-top:15px;
   }
@@ -144,7 +144,6 @@
   .carousel-title{
       font-size:5em;
       overflow:hidden;
-      /* max-width:50%; */
       margin-bottom: 100px;
       color:white;
       font-weight: 800;
@@ -211,4 +210,4 @@
       margin-left:auto;
       margin-right:auto;
       text-align: center;
-  }
+  } */
