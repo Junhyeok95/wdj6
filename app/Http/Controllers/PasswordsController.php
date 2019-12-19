@@ -59,7 +59,14 @@ class PasswordsController extends Controller
         ]);
 
         $token = $request->get('token');
+        $email = $request->get('email');
+        
+        //바꿀려고 등록한 이메일이 아닐경우
+        if (! \DB::table('password_resets')->whereEmail($email)->first()) {
+            return $this->respondError('email이 정확하지 않습니다.');
+        }
 
+        //바꿀 url(토큰)이 잘못됬을 경우
         if (! \DB::table('password_resets')->whereToken($token)->first()) {
             return $this->respondError('URL이 정확하지 않습니다.');
         }

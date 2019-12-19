@@ -14,25 +14,17 @@ class ArticlesController extends Controller
     {
         \Log::info($slug);
         //$slug는 태그로 검색할 경우에만 존재함
-        $query = $slug ? \App\Tag::whereSlug($slug)->firstOrFail()->articles() : new \App\Article;
-        // $articles = $query->latest()->paginate(10); #게시글 목록(위의 query조건에 맞는)
-        $articles = $query->orderBy('id','desc')->paginate(10); #게시글 목록(위의 query조건에 맞는)
+        $query = $slug ? \App\Tag::whereSlug($slug)->first()->articles() : new \App\Article;
+        $articles = $query->orderBy('id','desc')->paginate(5); #게시글 목록(위의 query조건에 맞는)
         $article = new \App\Article;        //게시글 전체
         \Log::info($articles);
         return view('articles.index', compact('article', 'articles'));
-        //compact()는 배열을 만들어줌.
     }
-    // //게시판 작성 요청
-    // public function create()        #게시판 생성시 보여주는 페이지
-    // {
-    //     $article = new \App\Article;
-    // }
+
     //게시판 작성 완료
     //ArticlesRequest안에 제목, 내용에 대한 rule이 있음
     public function store(\App\Http\Requests\ArticlesRequest $request)
     {   
-        // \Log::info($request->hasFile('files'));
-        //작성을 요청한 유저의 게시판을 만듬(작성을 요청한 정보의 모든 속성을 $article에 대입)
         $article = $request->user()->articles()->create($request->all());
         //$article는 auth()->user()->articles()->create()를 호출함
         //==> 로그인한 유저의 게시판을 작성
@@ -57,7 +49,6 @@ class ArticlesController extends Controller
                $file->move(attachments_path(), $filename);
            }
         }
-        event(new \App\Events\ArticleCreated($article));
         flash()->success('게시판을 생성하였습니다.');
         //이벤트를 발생시킴 
         // var_dump('이벤트 발생완료');
@@ -80,13 +71,42 @@ class ArticlesController extends Controller
     //게시판 수정 완료
     public function update(\App\Http\Requests\ArticlesRequest $request, \App\Article $article)
     {   
-        \Log::info($request->all());
         $this->authorize('update', $article);
         $article->update($request->all());
+
+        \Log::info($article->attachments);
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            foreach($files as $file) {
+                $filename = Str::random().filter_var($file->getClientOriginalName(), FILTER_SANITIZE_URL);
+                
+                //수정하기전 게시글에 첨부파일에 존재할 경우    -> 첨부파일을 수정
+                if ($article->attachments()->exists()) {
+                    \Log::info("수정");
+                    $article->attachments()->update([
+                        'filename' => $filename,
+                        'bytes' => $file->getSize(),
+                        'mime' => $file->getClientMimeType()
+                    ]);
+                }
+                //수정하기전 게시글에 첨부파일이 없었던 경우   -> 첨부파일을 생성
+                else{
+                    \Log::info("작성");
+                    $article->attachments()->create([
+                        'filename' => $filename,
+                        'bytes' => $file->getSize(),
+                        'mime' => $file->getClientMimeType()
+                    ]);
+                }
+                $file->move(attachments_path(), $filename);
+            }
+        }
+
         //store메서드에도 있음
         $article->tags()->sync($request->input('tags'));
         flash()->success('수정하신 내용을 저장했습니다.');
-        return redirect(route('articles.show', $article->id));
+        return response()->json([], 204);
     }
     //게시판 삭제, 완료
     public function destroy(\App\Article $article)

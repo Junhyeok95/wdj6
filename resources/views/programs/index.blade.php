@@ -12,7 +12,8 @@
             </div>
             <hr>
         </div>
-        @if($programs->count()>3)
+        <!-- 프로그램이 3개 이상이면 carousel을 포함 -->
+        @if($program->count() >= 3)
             <div class="carousel-divbox">
                 <div class="carousel-div">
                     @include('programs.carousel', compact('program')) 
@@ -27,7 +28,7 @@
                     글이 없습니다.
                 </p>
             @endforelse
-            @if($programs->count())
+            @if($program->count())
                 <div class="text-center program-paginator">
                     <div class="paginator">
                         {!! $programs->appends(request()->except('page'))->render() !!}
@@ -56,8 +57,8 @@
 @stop
 @section('script')
     <script>
-        $('#carousel-example-generic').carousel();
-        $('.carousel').carousel({interval: 2000});
+        $('#carousel-example-generic').carousel();      //캐러셀을 불러오겠다
+        $('.carousel').carousel({interval: 2000});      //캐러셀을 2초마다 돌리겠다
 
         function create(){
             console.log('create form 호출');
@@ -66,9 +67,6 @@
                 type:'GET',
                 url: '/programs/'+'create',
                 data: {},
-                error:function(request,status,error){
-                    alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-                },
             }).then(function(){    
                 $('.program-div').css("display","none");
                 $('.create-form').css("display","block");
@@ -149,6 +147,7 @@
                 });
             }
         }
+
         function edit(program_id){
             $.ajax({
                 type: "get",
@@ -168,8 +167,9 @@
                 
             });
         }
+        
         function update(program_id){
-            var form = $('#program_edit_form')[0];
+            var form = $(`#program_edit_form${program_id}`)[0];
             var data = new FormData(form);
             console.log(form);
             data.append('_method','PUT');

@@ -43,7 +43,7 @@
 
             @if($articles->count())
             <div class="text-center paginator__article">
-                {!! $articles->appends(request()->except('page'))->render() !!}
+                {!! $articles->render() !!}
             </div>
             @endif
         </div>
@@ -56,7 +56,7 @@
 //게시글 눌렀을 경우의 ajax참고 ----------------------
 var article_id = null;                  //article_id
     //게시글 열고 닫고의 토글기능을 위한 변수
-var article = [];                       
+var article = [];
 var count = "{{$articles->count()}}";
 for(var i = 1; i < count+1; i++){
     article[i] = 0;
@@ -86,6 +86,7 @@ $(document).on('click', '.btn__save__article', function(e) {
     var form = $('#article_create_form')[0];
     var data = new FormData(form);
     $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},  
         type: 'POST',
         enctype:"multipart/form-data",
         url: 'articles',
@@ -143,6 +144,8 @@ $(document).on('click', '.button__list__articles', function(e) {
 
 //게시글 수정 버튼
 $(document).on('click', '.button__edit__articles', function(e) {
+    article_id = $(this).closest('.button__edit__articles').data('id');
+
     $.ajax({
         type: "GET",
         url: `/articles/${article_id}/edit`
@@ -157,8 +160,7 @@ $(document).on('click', '.button__update__articles', function(e) {
     var form = $(`#article_edit_form${article_id}`)[0];
     var data = new FormData(form);
     data.append('_method', 'PUT');
-    console.log(form);
-    console.log(data);
+    console.log(article_id);
     $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},  
         type: 'POST',
@@ -174,6 +176,7 @@ $(document).on('click', '.button__update__articles', function(e) {
 });
 //게시글 삭제 버튼
 $(document).on('click', '.button__delete__articles', function(e) {
+    var article_id = $(this).closest('.button__delete__articles').data('id');
 
     if (confirm('글을 삭제합니다.')) { //글을 삭제합니다 경고창에서 yes를누르면 true
         $.ajax({
@@ -189,6 +192,7 @@ $(document).on('click', '.button__delete__articles', function(e) {
 
 //댓글 생성
 $(document).on('click', '.btn__create__comment', function(e) {
+    var article_id = $(this).closest('.btn__create__comment').data('id');
     var parent_id =  $(this).closest('.item__comment').data('id');  //대댓글이면 부모 댓글id, 아니면 null
     
     if(parent_id){
@@ -207,11 +211,12 @@ $(document).on('click', '.btn__create__comment', function(e) {
             'parent_id' : parent_id,
         }
     }).then(function (){
-        $('.container__comment').load(`/articles/${article_id} .container__comment`);
+        $(`.container__comment${article_id}`).load(`/articles/${article_id} .container__comment${article_id}`);
     });
 });
 //댓글 수정
 $(document).on('click', '.btn__update__comment', function(e) {
+    var article_id = $(this).closest('.btn__update__comment').data('id');
     var parent_id =  $(this).closest('.item__comment').data('id');  //대댓글이면 부모 댓글id, 아니면 null
     var content = $(`#edit_comment${parent_id}`).val();
     
@@ -224,13 +229,12 @@ $(document).on('click', '.btn__update__comment', function(e) {
             'commentable_id' : article_id,
         }
     }).then(function (){
-        $(`.media${article_id}`).load(`/articles/${article_id} .container__comment`);
+        $(`.container__comment${article_id}`).load(`/articles/${article_id} .container__comment${article_id}`);
     });
 });
 //댓글 삭제
 $(document).on('click', '.btn__delete__comment', function(e) {
-    
-var commentId = $(this).closest('.item__comment').data('id');
+    var commentId = $(this).closest('.item__comment').data('id');
     if (confirm('댓글을 삭제합니다.')) {
         $.ajax({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},  
@@ -260,9 +264,10 @@ $(document).on('click', '.btn__edit__comment', function(e) {
 
 //좋아요 기능
 $(document).on('click', '.btn__vote__comment', function(e) {
+    article_id = $(this).closest('.btn__vote__comment').data('id');
     var self = $(this),
     commentId = $(this).closest('.item__comment').data('id');
-    
+    console.log(article_id);
     $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},  
         type: 'POST',
@@ -271,7 +276,7 @@ $(document).on('click', '.btn__vote__comment', function(e) {
             vote: self.data('vote')
         }
     }).then(function (data) {
-        $('.container__comment').load(`/articles/${article_id} .container__comment`);
+        $(`.container__comment${article_id}`).load(`/articles/${article_id} .container__comment${article_id}`);
     });
 });
 </script>

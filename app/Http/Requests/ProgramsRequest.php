@@ -12,6 +12,7 @@ class ProgramsRequest extends FormRequest
     public function rules()
     {   
         $mimes = implode(',', config('attachment.mimes'));
+        
         return [
             'title' => ['required',],
             'content' => ['required', 'min:1'],

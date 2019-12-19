@@ -4,21 +4,15 @@ Route::resource('ajaxtests', 'AjaxTestsController');
 # ajax 연습
 
 
-# 장준혁 홈페이지
 Route::get('/', function () { return redirect('home'); });
 Route::resource('home', 'HomeController');
-# 장준혁 홈페이지
 
 
-# 김도형 현지학기제
 Route::resource('programs', 'ProgramsController');
-# 김도형 현지학기제
 
 
-# 정인식 조원소개
 Route::resource('members','MembersController');
 // Route::post('members/{id}/update/','MembersController@update');
-# 정인식 조원소개
 
 
 
@@ -68,7 +62,6 @@ Route::post('auth/reset', [
     'uses' => 'PasswordsController@postReset',
 ]);
 
-# 이재영 게시판
 // 게시판
 Route::resource('/articles', 'ArticlesController');
 // 태그
@@ -87,4 +80,3 @@ Route::post('comments/{comment}/votes',[
     'as' => 'comments.vote',
     'uses' => 'CommentsController@vote',
 ]);
-# 이재영 게시판

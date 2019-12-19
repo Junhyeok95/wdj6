@@ -16,24 +16,24 @@
 
         <div class="text-center action__article">
             @can('update', $article)
-            <button class="btn btn-primary button__edit__articles">
+            <button class="btn btn-primary button__edit__articles" data-id="{{ $article->id }}">
                 <i class="fa fa-pencil"></i>
                 글 수정
             @endcan
         
             @can('delete', $article)
-            <button class="btn btn-danger button__delete__articles">
+            <button class="btn btn-danger button__delete__articles" data-id="{{ $article->id }}">
                 <i class="fa fa-trash-o"></i>
                 글 삭제
             </button>
             @endcan
-            <button class="btn btn-default button__list__articles">
+            <button class="btn btn-default button__list__articles"data-id="{{ $article->id }}" >
                 <i class="fa fa-list"></i>
                 글 목록
             </button>
         </div>
 
-        <div class="container__comment">
+        <div class="container__comment{{$article->id}}" >
             @include('comments.index')
         </div>
     </div>

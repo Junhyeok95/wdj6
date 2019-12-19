@@ -68,18 +68,30 @@ class CommentsController extends Controller
         $this->validate($request, [
             'vote' => 'required|in:up,down',
         ]);
+
+        $up = $request->input('vote') == 'up' ? true : false;
+
+        //전에 투표했으면 투표한 것을 업데이트
         if ($comment->votes()->whereUserId($request->user()->id)->exists()) {
-            $up_down = $request->input('vote') == 'up' ? 'up' : 'down';
-            // \Log::info($up_down);
-            $comment->votes()->where('user_id', $request->user()->id)->delete();
-        }
-            $up = $request->input('vote') == 'up' ? true : false;
-            $comment->votes()->create([
+            \Log::info("업데이트");
+            $comment->votes()->update([
                 'user_id'  => $request->user()->id,
                 'up'       => $up,
                 'down'     => ! $up,
                 'voted_at' => \Carbon\Carbon::now()->toDateTimeString(),
             ]);
+        }
+        //전에 투표하지 않았으면 생성
+        else{
+            \Log::info("생성");
+            $comment->votes()->create([
+
+                'user_id'  => $request->user()->id,
+                'up'       => $up,
+                'down'     => ! $up,
+                'voted_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            ]);
+        }
         return response()->json([], 201);
 
     }
