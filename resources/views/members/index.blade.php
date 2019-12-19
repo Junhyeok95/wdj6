@@ -15,6 +15,7 @@
         </div>
     </div>
     <div class="contentDiv" id="contentDiv">
+    {!! \Log::info(gettype($members)) !!}
         @forelse ($members as $member)
             <div class="memberDiv" id="memberDiv{{$member->id}}">
                 <div class="imgDiv">
@@ -43,7 +44,7 @@
 <script>
     var createCheck = 1; //create()함수 온오프 관리 
     var editCheck =1; //edit 함수 온오프 관리
-    var check =999; // 조회 함수 온오프 관리
+    var check =-1; // 조회 함수 온오프 관리
     var nameDiv = document.createElement("div");
     var commentsDiv = document.createElement("div");
     function imgClick(id,name,comments){
@@ -56,7 +57,7 @@
         }).then(function(data){
             console.log(data);
             var conDiv = document.getElementById("conDiv"+data.id);
-            if(check==999){
+            if(check<0){
                 nameDiv.id = "nameDiv"+data.id;
                 commentsDiv.id = "commentsDiv"+data.id;
                 nameDiv.innerHTML= data.name;
@@ -69,7 +70,7 @@
             else if(check==data.id){
                 nameDiv.innerHTML= '';
                 commentsDiv.innerHTML= '';
-                check=999;
+                check=-1;
                 console.log("이프엘스문"+check);
             }
             else{
@@ -134,7 +135,8 @@
                     editDiv.className = "editDiv";
                     nameDiv.id= "nameDiv"+data.id;
                     commentsDiv.id = "comments"+data.id;
-                    img.src="files2/"+data.filename;
+                    img.src="http://btrya23.iptime.org:8000/files2/"+data.filename;
+                    // img.src="http://127.0.0.1:8000/files2/"+data.filename;
                     img.className = "img-thumbnail";
                     img.alt= "사진 안보여";
                     $(img).on('click',function(){
@@ -189,7 +191,7 @@
     function btnEdit(id){
         console.log('btnEdit 실행!');
         var editDiv = document.getElementById('editDiv'+id);
-        var form  = $('#editForm'+id)[0];
+        var form = $('#editForm'+id)[0];
         var data = new FormData(form);
         data.append('_method','put');
         // method:'PUT',
@@ -212,7 +214,7 @@
                 editDiv.innerHTML = '';
                 editCheck=1;
             },function(e){
-                console.log("수정실패");
+                console.log("수정 실패");
                 console.log(e);
             });
     };
@@ -234,6 +236,7 @@
             fileDiv.className = "form-group";
             creForm.id = "creForm";
             creForm.enctype = "multipart/form-data";
+            // creForm.attri
             nameLabel.innerHTML = "이름";
             nameInput.type ="text";
             nameInput.name = "name";

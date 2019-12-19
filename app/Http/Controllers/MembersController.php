@@ -11,10 +11,9 @@ class MembersController extends Controller
     public function index()
     {
         $members = \App\Member::get();
-        if( $members == null){
-            $members = '00000';
-        }
-        return view('members.index',compact('members'));
+        \Log::info(gettype(compact($members)));
+
+        return view('members.index',compact('members', $members));
     }
 
     public function create()

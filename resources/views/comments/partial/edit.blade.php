@@ -14,7 +14,7 @@
       </div>
 
       <div class="text-right">
-        <button type="submit" class="btn btn__update__comment btn-sm btn-primary">
+        <button type="submit" class="btn btn__update__comment btn-sm btn-primary" data-id="{{$article->id}}">
           수정하기
         </button>
       </div>

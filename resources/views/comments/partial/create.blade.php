@@ -20,7 +20,7 @@ class="media media__create__comment {{ isset($parentId) ? 'sub' : 'top' }}">
       </div>
 
       <div class="text-right">
-        <button class="btn btn__create__comment btn-primary btn-sm">
+        <button class="btn btn__create__comment btn-primary btn-sm" data-id="{{ $article->id }}" >
           전송하기
         </button>
       </div>

@@ -11,8 +11,10 @@ class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
         \Illuminate\Auth\Events\Login::class => [
-            \App\Listeners\UsersEventListener::class
+            \App\Listeners\UsersEventListener::class,
         ],
+
+
     ];
 
     # 메일 발송에 관련

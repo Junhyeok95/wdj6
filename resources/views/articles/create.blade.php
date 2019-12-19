@@ -3,10 +3,9 @@
 <div style="display:none" class="new_article">
 
     <h1>새 포럼 글 쓰기</h1>
-    <form action ='', id = "article_create_form" method="POST" enctype="multipart/form-data" class="form__article">
+    <form action ='', id = "article_create_form" method="POST" enctype="multipart/form-data" class="form__article__create">
 
         <hr />
-        {!! csrf_field() !!}
         @include('articles.partial.form')
     </form>
 

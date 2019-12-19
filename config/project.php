@@ -30,5 +30,6 @@ return [
         'jpg',
         'zip',
         'tar',
+        'jpeg',
     ],
 ];

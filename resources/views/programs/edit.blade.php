@@ -1,7 +1,7 @@
 <div class="edit-form edit{{$program->id}}">
     <div class="create-header">
         <div class="create-title">
-            <h1>현지학기제 글 쓰기</h1>
+            <h1>현지학기제 글 수정하기</h1>
         </div>
         <div class="create-button">
             <label class="btn btn-primary btnCreate" onclick="back()">뒤로 가기</label>   

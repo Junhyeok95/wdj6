@@ -1,14 +1,17 @@
 <?php
+//프로그램 파일 경로
 function program_attachments_path($path = '')
 {
     return public_path('files3'.($path ? DIRECTORY_SEPARATOR.$path : $path));
 }
 
+//게시판 파일 경로
 function attachments_path($path = '')
 {
     return public_path('files'.($path ? DIRECTORY_SEPARATOR.$path : $path));
 }
 
+//파일 사이즈 형식
 function format_filesize($bytes){
     if(! is_numeric($bytes)) return 'NaN';
 
@@ -23,27 +26,7 @@ function format_filesize($bytes){
     return round($bytes,2) .$suffix[$step];
 }
 
-if(! function_exists('markdown')){
-    function markdown($text=null)
-    {
-        return app(ParsedownExtra::class)->text($text);
-    }
-}
-
-if (! function_exists('gravatar_profile_url')) {
-    function gravatar_profile_url($email)
-    {
-        return sprintf("//www.gravatar.com/%s", md5($email));
-    }
-}
-
-if (! function_exists('gravatar_url')) {
-    function gravatar_url($email, $size = 48)
-    {
-        return sprintf("//www.gravatar.com/avatar/%s?s=%s", md5($email), $size);
-    }
-}
-
+//게시판 파일 경로
 if (! function_exists('attachments_path')) {
     function attachments_path($path = null)
     {
@@ -51,14 +34,16 @@ if (! function_exists('attachments_path')) {
     }
 }
 
-if (! function_exists('attachments_path2')) { # 멤버
+//멤버 파일 경로
+if (! function_exists('attachments_path2')) {
     function attachments_path2($path = null)
     {
         return public_path('files2'.($path ? DIRECTORY_SEPARATOR.$path : $path));
     }
 }
 
-if (! function_exists('attachments_path3')) { # 멤버
+//프로그램 파일 경로
+if (! function_exists('attachments_path3')) {
     function attachments_path3($path = null)
     {
         return public_path('files3'.($path ? DIRECTORY_SEPARATOR.$path : $path));
